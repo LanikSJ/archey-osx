@@ -103,7 +103,7 @@ uptime=$(uptime 2> /dev/null | sed -e 's/.*up\s*//' -e 's/,\s*[0-9]* user.*//')
 shell="$SHELL"
 terminal="$TERM ${TERM_PROGRAM//_/ }"
 cpu=$(sysctl -n machdep.cpu.brand_string)
-battery=$(pmset -g batt | egrep "([0-9]+\%).*" -o --colour=auto | cut -f1 -d';')
+battery=$(pmset -g batt |awk 'FNR==2{print $3}' |cut -f1 -d'%')
 
 # removes (R) and (TM) from the CPU name so it fits in a standard 80 window
 cpu=$(echo "$cpu" | awk '$1=$1' | sed 's/([A-Z]\{1,2\})//g')
